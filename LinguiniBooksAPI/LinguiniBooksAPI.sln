@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinguiniBooksAPI", "LinguiniBooksAPI\LinguiniBooksAPI.csproj", "{F1560B83-740A-47F7-AE22-4B5FCE41CF5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinguiniBooksAPI.Tests", "LinguiniBooksAPI.Tests\LinguiniBooksAPI.Tests.csproj", "{BEE78BDD-8433-4352-84EB-1DD0A19C5D56}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1560B83-740A-47F7-AE22-4B5FCE41CF5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1560B83-740A-47F7-AE22-4B5FCE41CF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1560B83-740A-47F7-AE22-4B5FCE41CF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1560B83-740A-47F7-AE22-4B5FCE41CF5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEE78BDD-8433-4352-84EB-1DD0A19C5D56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEE78BDD-8433-4352-84EB-1DD0A19C5D56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEE78BDD-8433-4352-84EB-1DD0A19C5D56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEE78BDD-8433-4352-84EB-1DD0A19C5D56}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {84C4F82F-02D4-4729-9863-66A77B309967}
+	EndGlobalSection
+EndGlobal
