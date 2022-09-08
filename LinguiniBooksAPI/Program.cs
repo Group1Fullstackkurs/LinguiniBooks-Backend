@@ -23,3 +23,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+//using System.Runtime.CompilerServices;
+
+//Console.WriteLine(LinguiniBooksAPI.Helpers.ConnStrHelper.ReadConnStr());
