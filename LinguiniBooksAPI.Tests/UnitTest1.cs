@@ -7,5 +7,11 @@ namespace LinguiniBooksAPI.Tests
         {
             Assert.Equal(1, 1);
         }
+
+        [Fact]
+        public void Other_Test()
+        {
+            Assert.Equal(10, 10);
+        }
     }
 }
