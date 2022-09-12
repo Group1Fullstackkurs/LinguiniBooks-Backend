@@ -13,8 +13,8 @@
             } else if(connStr != "" && connStr != null)
             {
                 return connStr;
-            } else if (connStrAzure != "" && connStr != null){
-                return connStrAzure!;
+            } else if (connStrAzure != "" && connStrAzure != null){
+                return connStrAzure;
             }
             return string.Empty;
                 
