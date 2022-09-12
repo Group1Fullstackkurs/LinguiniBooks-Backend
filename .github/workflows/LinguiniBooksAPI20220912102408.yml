@@ -2,13 +2,14 @@ name: Build and deploy .NET Core application to Web App LinguiniBooksAPI20220912
 on:
   push:
     branches:
-    - main
+    - main, yaml&connstr
 env:
   AZURE_WEBAPP_NAME: LinguiniBooksAPI20220912102408
   AZURE_WEBAPP_PACKAGE_PATH: LinguiniBooksAPI/publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
   WORKING_DIRECTORY: LinguiniBooksAPI
+  ConnStr: ${{ secrets.CONNSTR }}
 jobs:
   build:
     runs-on: ubuntu-latest
