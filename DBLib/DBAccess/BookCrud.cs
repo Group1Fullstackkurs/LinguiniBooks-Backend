@@ -7,7 +7,7 @@ namespace DBDataAccess.DBAccess
     public class BooksCrud
     {
         private readonly string connectionString;
-        private const string DBName = "Books";
+        private const string DBName = "BookStore";
         private const string bookCollection = "Books";
 
         public BooksCrud(string connectionString)
@@ -35,7 +35,7 @@ namespace DBDataAccess.DBAccess
             var collection = Connect<BookModel>(bookCollection);
             var results = await collection.FindAsync(_ => true);
             //return results.ToList();
-            return results.ToList().OrderBy(x => x.first_name).ToList();
+            return results.ToList().OrderBy(x => x.FirstName).ToList();
         }
 
         // Update
