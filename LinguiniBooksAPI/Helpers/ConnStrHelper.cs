@@ -4,7 +4,7 @@
     {
         public static string ReadConnStr()
         {
-            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
+            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\linguiniConnStr.txt"))
             {
                 return File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\linguiniConnStr.txt");
             } else {
