@@ -12,6 +12,8 @@
             {
                 Console.WriteLine(ex.ToString());
             }
+            return String.Empty;
+
         }
     }
 }
