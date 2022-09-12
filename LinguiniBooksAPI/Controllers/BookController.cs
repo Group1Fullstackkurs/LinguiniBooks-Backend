@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using DBDataAccess.Interfaces;
 using DBDataAccess.DBAccess;
 using LinguiniBooksAPI.Helpers;
+using DBDataAccess.Models;
 
 namespace LinguiniBooksAPI.Controllers
 {
@@ -16,5 +17,14 @@ namespace LinguiniBooksAPI.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<IBookModel>>> Get() => await bookCrud.GetAllBooks();
+
+
+        // CREATE
+        [HttpPost]
+        public async Task<ActionResult<IBookModel>> Post(BookModel book)
+        {
+            await bookCrud.CreateBook(book);
+            return Ok();
+        }
     }
 }
