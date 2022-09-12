@@ -4,12 +4,22 @@
     {
         public static string ReadConnStr()
         {
-            if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\linguiniConnStr.txt"))
+            var connStr = Environment.GetEnvironmentVariable("CONNSTR");
+            var connStrAzure = Environment.GetEnvironmentVariable("CONNSTR_MONGODB");
+
+            if(File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\linguiniConnStr.txt")) 
             {
-                return File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\linguiniConnStr.txt");
-            } else {
-                return Environment.GetEnvironmentVariable("CONNSTR") ?? Environment.GetEnvironmentVariable("CONNSTR_MONGODB") ?? string.Empty;
+                File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\linguiniConnStr.txt");
+            } else if(connStr != "" && connStr != null)
+            {
+                return connStr;
+            } else if (connStrAzure != "" && connStr != null){
+                return connStrAzure!;
             }
+            return string.Empty;
+                
+                
+ 
         }
     }
 }
