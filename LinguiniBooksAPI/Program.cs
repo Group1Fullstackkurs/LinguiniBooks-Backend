@@ -6,6 +6,16 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -22,8 +32,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.UseCors();
 
-//using System.Runtime.CompilerServices;
+app.Run();
 
 //Console.WriteLine(LinguiniBooksAPI.Helpers.ConnStrHelper.ReadConnStr());
