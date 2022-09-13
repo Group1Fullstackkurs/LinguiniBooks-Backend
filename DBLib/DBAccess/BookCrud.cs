@@ -53,15 +53,6 @@ namespace DBDataAccess.DBAccess
             return collection.ReplaceOneAsync(filter, book, new ReplaceOptions { IsUpsert = true });
         }
 
-        // update with string id as param
-        public Task UpdateBook(string id)
-        {
-            var collection = Connect<BookModel>(bookCollection);
-            var book = collection.FindAsync(b => b.Id == id);
-            // TODO: uppdatera boken för vilken parameter som är vald.
-            return book;
-        }
-
         // Delete
         public Task DeleteCBook(BookModel book)
         {
