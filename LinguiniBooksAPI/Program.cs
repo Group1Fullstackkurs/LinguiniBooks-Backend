@@ -1,3 +1,5 @@
+using LinguiniBooksAPI.Helpers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -34,6 +36,7 @@ app.MapControllers();
 
 app.UseCors();
 
+
 app.Run();
 
-//Console.WriteLine(LinguiniBooksAPI.Helpers.ConnStrHelper.ReadConnStr());
+Console.WriteLine(ConnStrHelper.ReadConnStr() + " ===================================");

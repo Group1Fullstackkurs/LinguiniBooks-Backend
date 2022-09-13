@@ -1,10 +1,10 @@
-name: Build and deploy .NET Core application to Web App LinguiniBooksAPI20220912102408
+name: Build and deploy .NET Core application to Web App LinguiniBooksAPI20220913132810
 on:
   push:
     branches:
     - main
 env:
-  AZURE_WEBAPP_NAME: LinguiniBooksAPI20220912102408
+  AZURE_WEBAPP_NAME: LinguiniBooksAPI20220913132810
   AZURE_WEBAPP_PACKAGE_PATH: LinguiniBooksAPI/publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
@@ -30,7 +30,7 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.LinguiniBooksAPI20220912102408_FFFF }}
+        publish-profile: ${{ secrets.LinguiniBooksAPI20220913132810_FFFF }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     - name: Publish Artifacts
       uses: actions/upload-artifact@v1.0.0
