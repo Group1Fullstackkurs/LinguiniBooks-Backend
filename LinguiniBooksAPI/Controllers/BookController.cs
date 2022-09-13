@@ -43,7 +43,12 @@ namespace LinguiniBooksAPI.Controllers
         }
 
         // UPDATE
-        [HttpPut("{id}")]
+        [HttpPut] // todo: vilken/vilka param?
+        public Task<IActionResult> Put(BookModel book)
+        {
+            var x = bookCrud.UpdateBook(book);
+            return (Task<IActionResult>)x;
+        }
 
         // DELETE
         [HttpDelete("{id}")]
