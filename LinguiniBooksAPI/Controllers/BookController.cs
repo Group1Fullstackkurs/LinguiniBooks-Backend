@@ -50,10 +50,9 @@ namespace LinguiniBooksAPI.Controllers
         public async Task<IActionResult> DeleteBook(string id)
         {
             var bookToBeDeleted = await bookCrud.GetBook(id);
-            // ta bort bookToBeDeleted!
-            // remove.
+            await bookCrud.DeleteCBook(bookToBeDeleted);
             
-            return NoContent(); // ?
+            return Ok(); // Vilken statuskod är korrekt?
         }
     }
 }
