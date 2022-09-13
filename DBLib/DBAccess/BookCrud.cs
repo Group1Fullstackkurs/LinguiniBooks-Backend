@@ -38,21 +38,12 @@ namespace DBDataAccess.DBAccess
             return results.ToList().OrderBy(x => x.FirstName).ToList();
         }
 
-
-
-
         // Read one (for use in for example delete and put.
         public async Task<BookModel> GetBook(string id)
         {
             var collection = Connect<BookModel>(bookCollection);
-            var filter = Builders<BookModel>.Filter.Eq("id", id);
-
-            var result = await collection.FindAsync(filter);
-            return (BookModel)result;
+            return (await collection.FindAsync(b => b.Id == id)).FirstOrDefault();
         }
-
-
-
 
         // Update
         public Task UpdateBook(BookModel book)
