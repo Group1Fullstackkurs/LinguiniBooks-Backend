@@ -1,6 +1,5 @@
 using DBDataAccess.DBAccess;
 using DBDataAccess.Models;
-using LinguiniBooksAPI.Helpers;
 
 namespace LinguiniBooksAPI.Tests
 {
@@ -15,15 +14,15 @@ namespace LinguiniBooksAPI.Tests
         [Fact]
         public void GetAllBooks_Test()
         {
-            // Arrange
-            var x = ConnStrHelper.ReadConnStr();
-            BooksCrud bookCrud = new BooksCrud(x);
+            //// Arrange
+            //var x = ConnStrHelper.ReadConnStr();
+            //BooksCrud bookCrud = new BooksCrud(x);
             
-            // Act
-            var result = bookCrud.GetAllBooks();  // ?
+            //// Act
+            //var result = bookCrud.GetAllBooks();  // ?
 
-            // Assert
-            Assert.True(true, "x");
+            //// Assert
+            //Assert.True(true, "x");
         }
     }
 }

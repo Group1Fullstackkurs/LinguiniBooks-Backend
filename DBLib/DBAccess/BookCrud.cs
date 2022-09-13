@@ -1,39 +1,28 @@
 ﻿using DBDataAccess.Models;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
-using MongoDB.Driver.Core.Configuration;
 
 namespace DBDataAccess.DBAccess
 {
-    public class BooksCrud
+    public class BookCrud : IBookCrud
     {
-        private readonly string connectionString;
-        private const string DBName = "BookStore";
-        private const string bookCollection = "Books";
+        private readonly IMongoCollection<BookModel> _books;
 
-        public BooksCrud(string connectionString)
+        public BookCrud(IConfiguration config)
         {
-            this.connectionString = connectionString;
+            var client = new MongoClient(config.GetConnectionString("Default"));
+            var db = client.GetDatabase("BookStore");
+            _books = db.GetCollection<BookModel>("Books");
         }
-
-        private IMongoCollection<T> Connect<T>(in string collection)
+        
+        public Task CreateBook(BookModel book) 
         {
-            var client = new MongoClient(connectionString);
-            var db = client.GetDatabase(DBName);
-            return db.GetCollection<T>(collection);
+            return _books.InsertOneAsync(book);
         }
-
-        // Create
-        public Task CreateBook(BookModel book)
-        {
-            var collection = Connect<BookModel>(bookCollection);
-            return collection.InsertOneAsync(book);
-        }
-
-        // Read
+        
         public async Task<List<BookModel>> GetAllBooks()
         {
-            var collection = Connect<BookModel>(bookCollection);
-            var results = await collection.FindAsync(_ => true);
+            var results = await _books.FindAsync(_ => true);
             //return results.ToList();
             return results.ToList().OrderBy(x => x.FirstName).ToList();
         }
@@ -41,23 +30,20 @@ namespace DBDataAccess.DBAccess
         // Read one (for use in for example delete and put.
         public async Task<BookModel> GetBook(string id)
         {
-            var collection = Connect<BookModel>(bookCollection);
-            return (await collection.FindAsync(b => b.Id == id)).FirstOrDefault();
+            return (await _books.FindAsync(b => b.Id == id)).FirstOrDefault();
         }
 
         // Update
         public Task UpdateBook(BookModel book)
         {
-            var collection = Connect<BookModel>(bookCollection);
             var filter = Builders<BookModel>.Filter.Eq("Id", book.Id);
-            return collection.ReplaceOneAsync(filter, book, new ReplaceOptions { IsUpsert = true });
+            return _books.ReplaceOneAsync(filter, book, new ReplaceOptions { IsUpsert = true });
         }
 
         // update with string id as param
         public Task UpdateBook(string id)
         {
-            var collection = Connect<BookModel>(bookCollection);
-            var book = collection.FindAsync(b => b.Id == id);
+            var book = _books.FindAsync(b => b.Id == id);
             // TODO: uppdatera boken för vilken parameter som är vald.
             return book;
         }
@@ -65,8 +51,7 @@ namespace DBDataAccess.DBAccess
         // Delete
         public Task DeleteCBook(BookModel book)
         {
-            var collection = Connect<BookModel>(bookCollection);
-            return collection.DeleteOneAsync(b => b.Id == book.Id);
+            return _books.DeleteOneAsync(b => b.Id == book.Id);
         }
     }
 }

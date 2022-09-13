@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using DBDataAccess.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
 using DBDataAccess.DBAccess;
-using LinguiniBooksAPI.Helpers;
 using DBDataAccess.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -13,12 +10,17 @@ namespace LinguiniBooksAPI.Controllers
     [Route("api/[controller]")]
     public class BookController : Controller
     {
-        readonly BooksCrud bookCrud = new(ConnStrHelper.ReadConnStr());
+        private IBookCrud _bookCrud;
+
+        public BookController(IBookCrud booksCrud)
+        {
+            _bookCrud = booksCrud;
+        }
 
         // GET: BookController
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<IBookModel>>> Get() => await bookCrud.GetAllBooks();
+        public async Task<ActionResult<IEnumerable<BookModel>>> Get() => await _bookCrud.GetAllBooks();
 
 
 
@@ -26,7 +28,7 @@ namespace LinguiniBooksAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<BookModel>> GetById(string id)
         {
-            var bookToBeFound = await bookCrud.GetBook(id);
+            var bookToBeFound = await _bookCrud.GetBook(id);
             if (bookToBeFound == null)
             {
                 return NotFound();
@@ -36,9 +38,9 @@ namespace LinguiniBooksAPI.Controllers
 
         // CREATE
         [HttpPost]
-        public async Task<ActionResult<IBookModel>> Post(BookModel book)
+        public async Task<ActionResult<BookModel>> Post(BookModel book)
         {
-            await bookCrud.CreateBook(book);
+            await _bookCrud.CreateBook(book);
             return Ok();
         }
 
@@ -46,7 +48,7 @@ namespace LinguiniBooksAPI.Controllers
         [HttpPut] // todo: vilken/vilka param?
         public Task<IActionResult> Put(BookModel book)
         {
-            var x = bookCrud.UpdateBook(book);
+            var x = _bookCrud.UpdateBook(book);
             return (Task<IActionResult>)x;
         }
 
@@ -54,8 +56,8 @@ namespace LinguiniBooksAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook(string id)
         {
-            var bookToBeDeleted = await bookCrud.GetBook(id);
-            await bookCrud.DeleteCBook(bookToBeDeleted);
+            var bookToBeDeleted = await _bookCrud.GetBook(id);
+            await _bookCrud.DeleteCBook(bookToBeDeleted);
             
             return Ok(); // Vilken statuskod är korrekt?
         }

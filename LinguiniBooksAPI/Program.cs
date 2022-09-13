@@ -1,4 +1,4 @@
-using LinguiniBooksAPI.Helpers;
+using DBDataAccess.DBAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +9,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
+
+builder.Services.AddScoped<IBookCrud, BookCrud>();
 
 builder.Services.AddCors(options =>
 {
@@ -38,5 +40,3 @@ app.UseCors();
 
 
 app.Run();
-
-Console.WriteLine(ConnStrHelper.ReadConnStr() + " ===================================");

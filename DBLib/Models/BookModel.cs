@@ -1,15 +1,12 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using DBDataAccess.Interfaces;
 
 namespace DBDataAccess.Models
 {
-    public class BookModel : IBookModel
+    public class BookModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-
-        // Strings
         public string Id { get; set; } = String.Empty;
         public string FirstName { get; set; } = String.Empty;
         public string LastName { get; set; } = String.Empty;
@@ -20,10 +17,11 @@ namespace DBDataAccess.Models
         public int PublicationYear { get; set; }
 
         // Int
-        public string Price { get; set; }
+        public string Price { get; set; } = string.Empty;
         public int Stock { get; set; }
 
         // Bool
         public bool New { get; set; }
+        public bool WasInUse;
     }
 }
