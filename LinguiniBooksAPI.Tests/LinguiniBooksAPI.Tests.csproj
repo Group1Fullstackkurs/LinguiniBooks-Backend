@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DBLib\DBDataAccess.csproj" />
+    <ProjectReference Include="..\LinguiniBooksAPI\LinguiniBooksAPI.csproj" />
   </ItemGroup>
 
 </Project>
