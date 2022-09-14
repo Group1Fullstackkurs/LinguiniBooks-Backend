@@ -8,7 +8,11 @@ namespace DBDataAccess.DBAccess
     {
         private readonly string connectionString;
         private const string DBName = "BookStore";
-        private const string bookCollection = "Books";
+        private const string collectionName = "Books";
+        private IMongoCollection bookCollection
+        {
+
+        }
 
         public BooksCrud(string connectionString)
         {
