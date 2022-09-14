@@ -22,12 +22,17 @@ namespace DBDataAccess.DBAccess
             return db.GetCollection<T>(collection);
         }
 
-        // Get all
         public async Task<List<UserModel>> GetAllUsers()
         {
             var collection = Connect<UserModel>(userCollection);
             var results = await collection.FindAsync(hej => true);
             return results.ToList().OrderBy(x => x.Name).ToList();
+        }
+
+        public async Task<UserModel> GetUser(string id)
+        {
+            var collection = Connect<UserModel>(userCollection);
+            return (await collection.FindAsync(u => u.Id == id)).FirstOrDefault();
         }
     }
 }
