@@ -10,11 +10,11 @@ namespace LinguiniBooksAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        readonly BooksCrud userCrud = new(ConnStrHelper.ReadConnStr());
+        readonly UserCrud userCrud = new(ConnStrHelper.ReadConnStr());
 
         // GET: BookController
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<IUser>>> Get() => null;
+        public async Task<ActionResult<IEnumerable<IUser>>> Get() => await userCrud.GetAllUsers();
     }
 }

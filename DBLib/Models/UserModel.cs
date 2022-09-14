@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DBDataAccess.Interfaces;
+﻿using DBDataAccess.Interfaces;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
 
 namespace DBDataAccess.Models
 {
-    internal class UserModel : IUser
+    public class UserModel : IUser
     {
-        // Strings
+        // Strings.
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; } = "";
         public string Name { get; set; } = "";
         public string Mail { get; set; } = "";
         public string Hash { get; set; } = "";
         public string Salt { get; set; } = "";
 
-        // Bools
+        // Bool.
         public bool IsBlockedSelling { get; set; }
         public bool IsBlockedAccount { get; set; }
         public bool IsAdmin { get; set; }
@@ -24,7 +23,7 @@ namespace DBDataAccess.Models
         public bool IsActivatedAccount { get; set; }
         public bool IsActivatedSelling { get; set; }
 
-        // Array
+        // List of type BookModel.
         public List<BookModel> BoughtBooks { get; set; } = new List<BookModel>();
     }
 }
