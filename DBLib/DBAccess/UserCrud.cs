@@ -59,7 +59,17 @@ namespace DBDataAccess.DBAccess
             }
         }
 
-        //
+        #region Work in progress
+        public async Task<UserModel> UpdateName(UserModel user)
+        {
+            var newNameForUser = "";
+            var userFound = await GetUserById(await UserNameToId(user.Name));
+            // hämta nya namnet någonstans ifrån...
+            userFound.Name = newNameForUser;
+
+            return userFound;
+        }
+        #endregion
 
 
         //public async Task<UserModel> GetUserByName(string name, string pwd);

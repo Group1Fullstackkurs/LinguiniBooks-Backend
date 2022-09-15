@@ -5,6 +5,7 @@ using LinguiniBooksAPI.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace LinguiniBooksAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -29,16 +30,16 @@ namespace LinguiniBooksAPI.Controllers
             return userToBeFound;
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<UserModel>> GetById(string id)
-        //{
-        //    var userToBeFound = await userCrud.GetUser(id);
-        //    if (userToBeFound == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return userToBeFound;
-        //}
+        #region Work in progress
+        [HttpPut("{id}")]
+        public async Task<ActionResult<IUser>> Update(UserModel userToBeUpdated)
+        {
+            var updatedUser = userCrud.UpdateName(userToBeUpdated);
+            //updatedUser = userCrud.UpdateOtherProperty1();
+            //updatedUser = userCrud.UpdateOtherProperty2();
+            return await updatedUser;
+        }
+        #endregion
 
         // CREATE
         [HttpPost]
@@ -47,7 +48,5 @@ namespace LinguiniBooksAPI.Controllers
             await userCrud.CreateUser(user);
             return Ok();
         }
-
-
     }
 }
