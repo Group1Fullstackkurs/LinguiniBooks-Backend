@@ -18,15 +18,36 @@ namespace LinguiniBooksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<IUser>>> Get() => await userCrud.GetAllUsers();
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserModel>> GetById(string id)
+        [HttpGet("{name}/{pwd}")]
+        public async Task<ActionResult<UserModel>> GetByName(string name, string pwd)
         {
-            var userToBeFound = await userCrud.GetUser(id);
-            if (userToBeFound==null)
+            var userToBeFound = await userCrud.GetUserByName(name, pwd);
+            if (userToBeFound == null)
             {
                 return NotFound();
             }
             return userToBeFound;
         }
+
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<UserModel>> GetById(string id)
+        //{
+        //    var userToBeFound = await userCrud.GetUser(id);
+        //    if (userToBeFound == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return userToBeFound;
+        //}
+
+        // CREATE
+        [HttpPost]
+        public async Task<ActionResult<IUser>> Post(UserModel user)
+        {
+            await userCrud.CreateUser(user);
+            return Ok();
+        }
+
+
     }
 }

@@ -24,8 +24,8 @@ namespace DBDataAccess.Interfaces
         public bool IsActivatedAccount { get; set; }
         public bool IsActivatedSelling { get; set; }
 
-        // Array
-        public List<BookModel> BoughtBooks { get; set; }
-        
+        // List
+        public IEnumerable<BookModel> BoughtBooks { get; set; }
+
     }
 }

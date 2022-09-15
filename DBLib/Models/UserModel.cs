@@ -24,6 +24,6 @@ namespace DBDataAccess.Models
         public bool IsActivatedSelling { get; set; }
 
         // List of type BookModel.
-        public List<BookModel> BoughtBooks { get; set; } = new List<BookModel>();
+        public IEnumerable<BookModel> BoughtBooks { get; set; } = new List<BookModel>();
     }
 }
