@@ -26,6 +26,7 @@ namespace DBDataAccess.DBAccess
         public Task CreateBook(BookModel book)
         {
             var collection = Connect<BookModel>(bookCollection);
+            book.Id = String.Empty;
             return collection.InsertOneAsync(book);
         }
 
