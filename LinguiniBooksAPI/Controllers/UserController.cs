@@ -31,13 +31,18 @@ namespace LinguiniBooksAPI.Controllers
         }
 
         #region Work in progress
-        [HttpPut("{id}")]
+        [HttpPut("{id}/{nyttnamn}")] // ?
         public async Task<ActionResult<IUser>> Update(UserModel userToBeUpdated)
         {
-            var updatedUser = userCrud.UpdateName(userToBeUpdated);
+            var updatedUser = userCrud.UpdateUser(
+                userToBeUpdated);
+            await updatedUser;
+            return Ok();
+
+            //var updatedUser = userCrud.UpdateName(userToBeUpdated);
             //updatedUser = userCrud.UpdateOtherProperty1();
             //updatedUser = userCrud.UpdateOtherProperty2();
-            return await updatedUser;
+            //return await updatedUser;
         }
         #endregion
 

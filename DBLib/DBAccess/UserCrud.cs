@@ -71,6 +71,15 @@ namespace DBDataAccess.DBAccess
         }
         #endregion
 
+        #region Other work in progress trying to update user...
+        public Task UpdateUser(UserModel user)
+        {
+            var colleciton = Connect<UserModel>(userCollection);
+            var filter = Builders<UserModel>.Filter.Eq("Id", user.Id);
+            return colleciton.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert= true });
+        }
+        #endregion
+
 
         //public async Task<UserModel> GetUserByName(string name, string pwd);
         //{
