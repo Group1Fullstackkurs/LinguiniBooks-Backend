@@ -1,5 +1,7 @@
-﻿using DBDataAccess.Models;
+﻿using DBDataAccess.Interfaces;
+using DBDataAccess.Models;
 using MongoDB.Driver;
+using DBDataAccess.Helpers;
 
 
 namespace DBDataAccess.DBAccess
@@ -9,7 +11,7 @@ namespace DBDataAccess.DBAccess
         private readonly string connectionString;
         private const string DBName = "BookStore";
         private const string userCollection = "Users";
-
+        private PwdHelper pwdHelper = new();
         public UserCrud(string connectionString)
         {
             this.connectionString = connectionString;
@@ -22,6 +24,23 @@ namespace DBDataAccess.DBAccess
             return db.GetCollection<T>(collection);
         }
 
+
+        // Create
+        public Task CreateUser(UserModel user)
+        {
+            var collection = Connect<UserModel>(userCollection);
+            user.Id = String.Empty;
+            user.BoughtBooks = new List<BookModel>();
+
+            //Pwd creation
+            var salt = pwdHelper.GetSalt();
+            user.Hash = pwdHelper.GetSaltedHash(user.Hash, salt);
+            user.Salt = salt;
+
+            return collection.InsertOneAsync(user);
+        }
+
+        // Read
         public async Task<List<UserModel>> GetAllUsers()
         {
             var collection = Connect<UserModel>(userCollection);
@@ -29,10 +48,37 @@ namespace DBDataAccess.DBAccess
             return results.ToList().OrderBy(x => x.Name).ToList();
         }
 
-        public async Task<UserModel> GetUser(string id)
+        public async Task<UserModel> GetUserByName(string name, string pwd)
+        {
+            var user = await GetUserById(await UserNameToId(name));
+            if (pwdHelper.IsPwdValid(user, pwd)) {
+                return user;
+            } else
+            {
+                return null;
+            }
+        }
+
+        //
+
+
+        //public async Task<UserModel> GetUserByName(string name, string pwd);
+        //{
+        //    var collection = Connect<UserModel>(userCollection);
+        //    return (await collection.FindAsync(u => u.Name == name)).FirstOrDefault();
+
+        //}
+
+        // Do not use outside of CRUD
+        protected private async Task<UserModel> GetUserById(string id)
         {
             var collection = Connect<UserModel>(userCollection);
             return (await collection.FindAsync(u => u.Id == id)).FirstOrDefault();
+        }
+        protected private async Task<string> UserNameToId(string name)
+        {
+            var collection = Connect<UserModel>(userCollection);
+            return(await collection.FindAsync(u => u.Name == name)).FirstOrDefault().Id;
         }
     }
 }
