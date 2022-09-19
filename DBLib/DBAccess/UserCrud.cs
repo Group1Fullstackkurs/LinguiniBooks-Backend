@@ -1,8 +1,6 @@
-﻿using DBDataAccess.Interfaces;
-using DBDataAccess.Models;
+﻿using DBDataAccess.Models;
 using MongoDB.Driver;
 using DBDataAccess.Helpers;
-
 
 namespace DBDataAccess.DBAccess
 {
@@ -59,8 +57,12 @@ namespace DBDataAccess.DBAccess
             }
         }
 
-        //
-
+        public async Task UpdateUser(UserModel user)
+        {
+            var collection = Connect<UserModel>(userCollection);
+            var filter = Builders<UserModel>.Filter.Eq("Id", user.Id);
+            await collection.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert = true });
+        }
 
         //public async Task<UserModel> GetUserByName(string name, string pwd);
         //{

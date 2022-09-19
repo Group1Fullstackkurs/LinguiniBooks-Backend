@@ -2,8 +2,8 @@
 using DBDataAccess.Interfaces;
 using DBDataAccess.Models;
 using LinguiniBooksAPI.Helpers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace LinguiniBooksAPI.Controllers
 {
@@ -29,16 +29,14 @@ namespace LinguiniBooksAPI.Controllers
             return userToBeFound;
         }
 
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<UserModel>> GetById(string id)
-        //{
-        //    var userToBeFound = await userCrud.GetUser(id);
-        //    if (userToBeFound == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return userToBeFound;
-        //}
+        [HttpPut]
+        public async Task<ActionResult<IUser>> Update(UserModel userToBeUpdated)
+        {
+            var updatedUser = userCrud.UpdateUser(
+                userToBeUpdated);
+            await updatedUser;
+            return Ok();
+        }
 
         // CREATE
         [HttpPost]
@@ -47,7 +45,5 @@ namespace LinguiniBooksAPI.Controllers
             await userCrud.CreateUser(user);
             return Ok();
         }
-
-
     }
 }
