@@ -43,11 +43,12 @@ namespace LinguiniBooksAPI.Controllers
         }
 
         // UPDATE
-        [HttpPut] // todo: vilken/vilka param?
-        public Task<IActionResult> Put(BookModel book)
+        [HttpPut]
+        public async Task<IActionResult> Put(BookModel bookToBeUpdated)
         {
-            var x = bookCrud.UpdateBook(book);
-            return (Task<IActionResult>)x;
+            var updatedBook = bookCrud.UpdateBook(bookToBeUpdated);
+            await updatedBook;
+            return Ok();
         }
 
         // DELETE
@@ -57,7 +58,7 @@ namespace LinguiniBooksAPI.Controllers
             var bookToBeDeleted = await bookCrud.GetBook(id);
             await bookCrud.DeleteCBook(bookToBeDeleted);
             
-            return Ok(); // Vilken statuskod är korrekt?
+            return Ok();
         }
     }
 }

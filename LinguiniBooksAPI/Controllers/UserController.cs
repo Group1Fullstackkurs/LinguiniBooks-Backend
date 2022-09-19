@@ -2,7 +2,6 @@
 using DBDataAccess.Interfaces;
 using DBDataAccess.Models;
 using LinguiniBooksAPI.Helpers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -30,23 +29,14 @@ namespace LinguiniBooksAPI.Controllers
             return userToBeFound;
         }
 
-        #region Work in progress
-        // testa med "testuser1" "password"
-        [HttpPut("{password}")]
-
+        [HttpPut]
         public async Task<ActionResult<IUser>> Update(UserModel userToBeUpdated)
         {
-            var updatedUser = userCrud.UpdateUserBlock(
+            var updatedUser = userCrud.UpdateUser(
                 userToBeUpdated);
             await updatedUser;
             return Ok();
-
-            //var updatedUser = userCrud.UpdateName(userToBeUpdated);
-            //updatedUser = userCrud.UpdateOtherProperty1();
-            //updatedUser = userCrud.UpdateOtherProperty2();
-            //return await updatedUser;
         }
-        #endregion
 
         // CREATE
         [HttpPost]

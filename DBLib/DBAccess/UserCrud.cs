@@ -1,5 +1,4 @@
-﻿using DBDataAccess.Interfaces;
-using DBDataAccess.Models;
+﻿using DBDataAccess.Models;
 using MongoDB.Driver;
 using DBDataAccess.Helpers;
 
@@ -58,48 +57,12 @@ namespace DBDataAccess.DBAccess
             }
         }
 
-        #region Gammalt
-        public async Task<UserModel> UpdateName(UserModel user)
-        {
-            var newNameForUser = "nyanamnet";
-            var userFound = await GetUserById(await UserNameToId(user.Name));
-            // hämta nya namnet någonstans ifrån...
-            userFound.Name = newNameForUser;
-
-            return userFound;
-        }
-        #endregion
-
-        #region Update IsBlocked WORK IN PROGRESS
-        public Task UpdateUserBlock(UserModel user)
+        public async Task UpdateUser(UserModel user)
         {
             var collection = Connect<UserModel>(userCollection);
             var filter = Builders<UserModel>.Filter.Eq("Id", user.Id);
-            // uppdatera IsBlocked-variabeln
-            // returnera uppdaterade usern.
-            if (user.IsBlockedAccount = true)
-            {
-                user.IsBlockedAccount = false;
-            }
-            else if (user.IsBlockedAccount = false)
-            {
-                user.IsBlockedAccount = true;
-            }
-            return collection.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert = true });
-
-
+            await collection.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert = true });
         }
-        #endregion
-
-        #region Update IsSeller
-        #endregion
-
-        #region Update IsAdmin
-        #endregion
-
-        #region Update IsActive
-        #endregion
-
 
         //public async Task<UserModel> GetUserByName(string name, string pwd);
         //{
