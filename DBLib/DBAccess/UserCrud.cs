@@ -3,7 +3,6 @@ using DBDataAccess.Models;
 using MongoDB.Driver;
 using DBDataAccess.Helpers;
 
-
 namespace DBDataAccess.DBAccess
 {
     public class UserCrud
@@ -59,10 +58,10 @@ namespace DBDataAccess.DBAccess
             }
         }
 
-        #region Work in progress
+        #region Gammalt
         public async Task<UserModel> UpdateName(UserModel user)
         {
-            var newNameForUser = "";
+            var newNameForUser = "nyanamnet";
             var userFound = await GetUserById(await UserNameToId(user.Name));
             // hämta nya namnet någonstans ifrån...
             userFound.Name = newNameForUser;
@@ -71,13 +70,34 @@ namespace DBDataAccess.DBAccess
         }
         #endregion
 
-        #region Other work in progress trying to update user...
-        public Task UpdateUser(UserModel user)
+        #region Update IsBlocked WORK IN PROGRESS
+        public Task UpdateUserBlock(UserModel user)
         {
-            var colleciton = Connect<UserModel>(userCollection);
+            var collection = Connect<UserModel>(userCollection);
             var filter = Builders<UserModel>.Filter.Eq("Id", user.Id);
-            return colleciton.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert= true });
+            // uppdatera IsBlocked-variabeln
+            // returnera uppdaterade usern.
+            if (user.IsBlockedAccount = true)
+            {
+                user.IsBlockedAccount = false;
+            }
+            else if (user.IsBlockedAccount = false)
+            {
+                user.IsBlockedAccount = true;
+            }
+            return collection.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert = true });
+
+
         }
+        #endregion
+
+        #region Update IsSeller
+        #endregion
+
+        #region Update IsAdmin
+        #endregion
+
+        #region Update IsActive
         #endregion
 
 
