@@ -2,6 +2,10 @@
 {
     public static class ConnStrHelper
     {
+        /// <summary>
+        /// Reads connection string from docs, git or azure.
+        /// </summary>
+        /// <returns>The connection string</returns>
         public static string ReadConnStr()
         {
             var connStrDocs = string.Empty;
