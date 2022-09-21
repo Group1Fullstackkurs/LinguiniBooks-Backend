@@ -22,8 +22,11 @@ namespace DBDataAccess.DBAccess
             return db.GetCollection<T>(collection);
         }
 
-
-        // Create
+        /// <summary>
+        /// CREATE. Creates a user and adds it to the database.
+        /// </summary>
+        /// <param name="user">The user object to insert into collection.</param>
+        /// <returns>A collection with the added user.</returns>
         public Task CreateUser(UserModel user)
         {
             var collection = Connect<UserModel>(userCollection);
@@ -38,7 +41,10 @@ namespace DBDataAccess.DBAccess
             return collection.InsertOneAsync(user);
         }
 
-        // Read
+        /// <summary>
+        /// READ. Gets all users from database.
+        /// </summary>
+        /// <returns>A collection of all users in database.</returns>
         public async Task<List<UserModel>> GetAllUsers()
         {
             var collection = Connect<UserModel>(userCollection);
@@ -46,6 +52,12 @@ namespace DBDataAccess.DBAccess
             return results.ToList().OrderBy(x => x.Name).ToList();
         }
 
+        /// <summary>
+        /// Login
+        /// </summary>
+        /// <param name="name">The name of the user.</param>
+        /// <param name="pwd">The password of the user.</param>
+        /// <returns>A user object</returns>
         public async Task<UserModel> GetUserByName(string name, string pwd)
         {
             var user = await GetUserById(await UserNameToId(name));
@@ -57,6 +69,11 @@ namespace DBDataAccess.DBAccess
             }
         }
 
+        /// <summary>
+        /// UPDATE. Updates the user object.
+        /// </summary>
+        /// <param name="user">The user to be updated.</param>
+        /// <returns>A collection containing the updated user.</returns>
         public async Task UpdateUser(UserModel user)
         {
             var collection = Connect<UserModel>(userCollection);
@@ -71,12 +88,26 @@ namespace DBDataAccess.DBAccess
 
         //}
 
-        // Do not use outside of CRUD
+        // ================================================
+        // Do not use the two below methods outside of CRUD
+        // ================================================
+
+        /// <summary>
+        /// Gets a user by id.
+        /// </summary>
+        /// <param name="id">The id of the user to be found.</param>
+        /// <returns>The first user with matching id.</returns>
         protected private async Task<UserModel> GetUserById(string id)
         {
             var collection = Connect<UserModel>(userCollection);
             return (await collection.FindAsync(u => u.Id == id)).FirstOrDefault();
         }
+
+        /// <summary>
+        /// Finds the id of a specific user.
+        /// </summary>
+        /// <param name="name">The name of the user whose id is to be found.</param>
+        /// <returns>The id of a matching user</returns>
         protected private async Task<string> UserNameToId(string name)
         {
             var collection = Connect<UserModel>(userCollection);
