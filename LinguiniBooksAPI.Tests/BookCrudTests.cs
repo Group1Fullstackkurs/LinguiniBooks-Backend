@@ -11,19 +11,5 @@ namespace LinguiniBooksAPI.Tests
         {
             Assert.Equal(1, 1);
         }
-
-        [Fact]
-        public void GetAllBooks_Test()
-        {
-            // Arrange
-            var x = ConnStrHelper.ReadConnStr();
-            BooksCrud bookCrud = new BooksCrud(x);
-            
-            // Act
-            var result = bookCrud.GetAllBooks();  // ?
-
-            // Assert
-            Assert.True(true, "x");
-        }
     }
 }
