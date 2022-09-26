@@ -4,7 +4,7 @@ using LinguiniBooksAPI.Helpers;
 
 namespace LinguiniBooksAPI.Tests
 {
-    public class BookCrudTests
+    public class BookTests
     {
         [Fact]
         public void Test1()
@@ -17,5 +17,15 @@ namespace LinguiniBooksAPI.Tests
         {
             Assert.Equal(1, 1);
         }
+    }
+
+    public class UserTests
+    {
+
+    }
+
+    public class OtherTests
+    {
+
     }
 }
