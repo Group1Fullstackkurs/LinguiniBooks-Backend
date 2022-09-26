@@ -11,5 +11,11 @@ namespace LinguiniBooksAPI.Tests
         {
             Assert.Equal(1, 1);
         }
+
+        [Fact]
+        public void MittNyaTest()
+        {
+            Assert.Equal(1, 1);
+        }
     }
 }
