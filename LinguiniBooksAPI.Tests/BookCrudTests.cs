@@ -11,5 +11,19 @@ namespace LinguiniBooksAPI.Tests
         {
             Assert.Equal(1, 1);
         }
+
+
+        [Fact]
+        public void ConnStrT()
+        {
+            string fakedbconnstr = "";
+            fakedbconnstr = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\fakedbconnstr.txt");
+            string realdbConnStr = File.ReadAllText(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\linguiniConnStr.txt");
+
+            var result = ConnStrHelper.ReadConnStr();
+
+            Assert.NotEqual(fakedbconnstr, result);
+            Assert.Equal(result, realdbConnStr);
+        }
     }
 }
