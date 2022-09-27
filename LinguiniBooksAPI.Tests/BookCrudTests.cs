@@ -30,9 +30,8 @@ namespace LinguiniBooksAPI.Tests
         [Fact]
         public void GetBook_ValidCall()
         {
-            string connStr = "";
             BooksCrud crud = new BooksCrud(connStr);
-            string bookId = "";
+            string bookId = "632ca2efd61cf3adbb0bffad"; // The Juche Idea
 
             using (var mock = AutoMock.GetLoose())
             {
@@ -46,7 +45,7 @@ namespace LinguiniBooksAPI.Tests
                 var actual = clss.GetBook(bookId);
 
                 Assert.True(actual != null);
-                Assert.Equal("", expected.Title);
+                Assert.Equal("Juche Idea, The", expected.Title);
             }
         }
         // Hör ihop med ovanstående test.
@@ -55,9 +54,7 @@ namespace LinguiniBooksAPI.Tests
             BookModel output = new BookModel()
             {
                 Id = "123",
-                FirstName = "John",
-                LastName = "Doe",
-                Title = "C# for even extremer dummies"
+                Title = "Juche Idea, The"
             };
 
             return output;
@@ -116,6 +113,31 @@ namespace LinguiniBooksAPI.Tests
             var count = books.Count; // Count är 0. (Finns 5 i db:n).
 
             //Assert.Equal(count, 5);
+        }
+        #endregion
+
+        #region Random book tests that does not really test anything relevant.
+        [Fact]
+        public void CreateBookWorks()
+        {
+            BookModel book = new BookModel();
+            var fakeBook = book.Title = "C# for dummies";
+            Assert.True(book != null);
+            Assert.NotEqual("Juche Idea, The", fakeBook); // bok 1 i fake db.
+        }
+        [Fact]
+        public void CreateControllerWorks()
+        {
+            BookController controller = new BookController();
+            Assert.True(controller != null);
+        }
+        [Fact]
+        public void CreateBookCrudWorks()
+        {
+            BooksCrud crud = new BooksCrud(connStr);
+            string result = ConnStrHelper.ReadConnStr();
+            Assert.True(crud != null);
+            Assert.NotEqual(connStr, result);
         }
         #endregion
     }
