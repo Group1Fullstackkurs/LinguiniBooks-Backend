@@ -1,10 +1,11 @@
-﻿using DBDataAccess.Models;
+﻿using DBDataAccess.Interfaces;
+using DBDataAccess.Models;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Configuration;
 
 namespace DBDataAccess.DBAccess
 {
-    public class BooksCrud
+    public class BooksCrud : IBookCrud
     {
         // Global fields and constants.
         private readonly string connectionString;
