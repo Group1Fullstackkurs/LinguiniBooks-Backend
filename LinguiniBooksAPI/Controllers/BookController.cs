@@ -23,6 +23,12 @@ namespace LinguiniBooksAPI.Controllers
         {
             bookCrud = @object;
         }
+        public BookController()
+        {
+            /* TOM CTOR GER DOCK DETTA:
+    System.InvalidOperationException: Multiple constructors accepting all given argument types have been found in type 'LinguiniBooksAPI.Controllers.BookController'. There should only be one applicable constructor.
+             */
+        }
 
         /// <summary>
         /// READ. Http request for getting all books from database.
