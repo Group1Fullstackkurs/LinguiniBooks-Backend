@@ -13,10 +13,16 @@ namespace LinguiniBooksAPI.Controllers
     [Route("api/[controller]")]
     public class BookController : Controller
     {
+
         /// <summary>
         /// Field needed for database access and crud operations on database.
         /// </summary>
-        readonly BooksCrud bookCrud = new(ConnStrHelper.ReadConnStr());
+        BooksCrud bookCrud = new(ConnStrHelper.ReadConnStr());
+
+        public BookController(BooksCrud @object)
+        {
+            bookCrud = @object;
+        }
 
         /// <summary>
         /// READ. Http request for getting all books from database.
@@ -32,7 +38,7 @@ namespace LinguiniBooksAPI.Controllers
         /// <param name="id">The id of the book to be found.</param>
         /// <returns>A task of type ActionResult.</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<BookModel>> GetById(string id)
+        public virtual async Task<ActionResult<BookModel>> GetById(string id) // virtual
         {
             var bookToBeFound = await bookCrud.GetBook(id);
             if (bookToBeFound == null)

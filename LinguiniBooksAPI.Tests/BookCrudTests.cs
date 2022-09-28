@@ -27,38 +27,38 @@ namespace LinguiniBooksAPI.Tests
         }
 
         #region Försök med Moq. WORK IN PROGRESS
-        [Fact]
-        public void GetBook_ValidCall()
-        {
-            BooksCrud crud = new BooksCrud(connStr);
-            string bookId = "632ca2efd61cf3adbb0bffad"; // The Juche Idea
+        //[Fact]
+        //public void GetBook_ValidCall()
+        //{
+        //    BooksCrud crud = new BooksCrud(connStr);
+        //    string bookId = "632ca2efd61cf3adbb0bffad"; // The Juche Idea
 
-            using (var mock = AutoMock.GetLoose())
-            {
-                mock.Mock<BooksCrud>()
-                    .Setup(x => x.GetBook(bookId))
-                    .Returns(GetSampleBook()); // CS1503
+        //    using (var mock = AutoMock.GetLoose())
+        //    {
+        //        mock.Mock<BooksCrud>()
+        //            .Setup(x => x.GetBook(bookId))
+        //            .Returns(GetSampleBook()); // CS1503
 
-                var clss = mock.Create<BooksCrud>();
-                var expected = GetSampleBook();
+        //        var clss = mock.Create<BooksCrud>();
+        //        var expected = GetSampleBook();
 
-                var actual = clss.GetBook(bookId);
+        //        var actual = clss.GetBook(bookId);
 
-                Assert.True(actual != null);
-                Assert.Equal("Juche Idea, The", expected.Title);
-            }
-        }
-        // Hör ihop med ovanstående test.
-        private BookModel GetSampleBook()
-        {
-            BookModel output = new BookModel()
-            {
-                Id = "123",
-                Title = "Juche Idea, The"
-            };
+        //        Assert.True(actual != null);
+        //        Assert.Equal("Juche Idea, The", expected.Title);
+        //    }
+        //}
+        //// Hör ihop med ovanstående test.
+        //private BookModel GetSampleBook()
+        //{
+        //    BookModel output = new BookModel()
+        //    {
+        //        Id = "123",
+        //        Title = "Juche Idea, The"
+        //    };
 
-            return output;
-        }
+        //    return output;
+        //}
 
         [Fact]
         public async Task GetBook()
@@ -69,23 +69,25 @@ namespace LinguiniBooksAPI.Tests
                 Title = "Juche Idea, The",
                 Id = "632ca2efd61cf3adbb0bffad"
             };
-            var mockBookClient = new Mock<BooksCrud>();
-            mockBookClient.Setup(c => c.GetBook(document.Id))
+            var mockBookCrud = new Mock<BooksCrud>("");
+            mockBookCrud.Setup(c => c.GetBook(document.Id))
                 .ReturnsAsync(document);
 
             // ARRANGE
-            BookController service = new BookController(mockBookClient.Object);
+            BookController bookControler = new BookController(mockBookCrud.Object); // "service"
 
             // ACT
-            var result = await service.GetById(document.Id) as ObjectResult; // ?
+            var result = await bookControler.GetById(document.Id); // ?
             var actualResult = result.Value;
 
             // ASSERT
-            Assert.IsType<OkObjectResult>(result);
-            Assert.Equal(HttpStatusCode.OK, (HttpStatusCode)result.StatusCode);
-            mockBookClient.Verify(c => c.GetBook(It.IsAny<string>()), Times.Once);
-            Assert.Equal(document.Title, (IEnumerable<char>)(BookModel)actualResult).Title); // ?
-            Assert.Equal(document.Id, (IEnumerable<char>)(BookModel)actualResult).Id); // ?
+            Assert.Equal(document.Id, actualResult.Id);
+
+            //Assert.IsType<OkObjectResult>(result);
+            //Assert.Equal(HttpStatusCode.OK, (HttpStatusCode)result.StatusCode);
+            //mockBookClient.Verify(c => c.GetBook(It.IsAny<string>()), Times.Once);
+            //Assert.Equal(document.Title, (IEnumerable<char>)(BookModel)actualResult).Title); // ?
+            //Assert.Equal(document.Id, (IEnumerable<char>)(BookModel)actualResult).Id); // ?
         }
         #endregion
 
@@ -125,12 +127,12 @@ namespace LinguiniBooksAPI.Tests
             Assert.True(book != null);
             Assert.NotEqual("Juche Idea, The", fakeBook); // bok 1 i fake db.
         }
-        [Fact]
-        public void CreateControllerWorks()
-        {
-            BookController controller = new BookController();
-            Assert.True(controller != null);
-        }
+        //[Fact]
+        //public void CreateControllerWorks()
+        //{
+        //    BookController controller = new BookController();
+        //    Assert.True(controller != null);
+        //}
         [Fact]
         public void CreateBookCrudWorks()
         {

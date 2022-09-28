@@ -63,7 +63,7 @@ namespace DBDataAccess.DBAccess
         /// </summary>
         /// <param name="id">Id of the book to be found</param>
         /// <returns>The first book that matches the incoming id.</returns>
-        public async Task<BookModel> GetBook(string id)
+        public virtual async Task<BookModel> GetBook(string id) // virtual
         {
             var collection = Connect<BookModel>(bookCollection);
             return (await collection.FindAsync(b => b.Id == id)).FirstOrDefault();
