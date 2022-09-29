@@ -91,5 +91,14 @@ namespace DBDataAccess.DBAccess
             var collection = Connect<BookModel>(bookCollection);
             return collection.DeleteOneAsync(b => b.Id == book.Id);
         }
+
+        public Task BuyBook(BookModel book) // Behövs detta?
+        {
+            var collection = Connect<BookModel>(bookCollection);
+            var filter = Builders<BookModel>.Filter.Eq("Id", book.Id);
+            var newStock = book.Stock - 1;
+            var update = Builders<BookModel>.Update.Set("Stock", newStock);
+            return collection.UpdateOneAsync(filter, update);
+        }
     }
 }
