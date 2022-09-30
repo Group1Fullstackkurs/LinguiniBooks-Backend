@@ -59,7 +59,7 @@ namespace LinguiniBooksAPI.Controllers
         /// </summary>
         /// <param name="bookToBeUpdated">The book to be updated.</param>
         /// <returns>A task of type ActionResult.</returns>
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put(BookModel bookToBeUpdated)
         {
             var updatedBook = bookCrud.UpdateBook(bookToBeUpdated);
