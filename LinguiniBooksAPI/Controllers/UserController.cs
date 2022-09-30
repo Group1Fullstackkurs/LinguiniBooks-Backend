@@ -65,7 +65,7 @@ namespace LinguiniBooksAPI.Controllers
         /// </summary>
         /// <param name="userToBeUpdated">The user to be updated.</param>
         /// <returns>A task of type ActionResult.</returns>
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<IUser>> Update(UserModel userToBeUpdated)
         {
             var updatedUser = userCrud.UpdateUser(
