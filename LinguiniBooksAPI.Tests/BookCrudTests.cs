@@ -4,7 +4,7 @@ using LinguiniBooksAPI.Helpers;
 
 namespace LinguiniBooksAPI.Tests
 {
-    public class BookCrudTests
+    public class BookTests
     {
         [Fact]
         public void Test1()

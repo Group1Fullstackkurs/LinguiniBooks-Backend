@@ -53,6 +53,17 @@ namespace DBDataAccess.DBAccess
         }
 
         /// <summary>
+        /// READ. Gets one user from the database.
+        /// </summary>
+        /// <param name="id">Id of the user to be found.</param>
+        /// <returns>The user that matches the incoming id.</returns>
+        public async Task<UserModel> GetUser(string id)
+        {
+            var collection = Connect<UserModel>(userCollection);
+            return (await collection.FindAsync(u => u.Id == id)).FirstOrDefault();
+        }
+
+        /// <summary>
         /// Login
         /// </summary>
         /// <param name="name">The name of the user.</param>

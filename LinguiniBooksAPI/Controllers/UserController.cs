@@ -28,6 +28,22 @@ namespace LinguiniBooksAPI.Controllers
         public async Task<ActionResult<IEnumerable<IUser>>> Get() => await userCrud.GetAllUsers();
 
         /// <summary>
+        /// READ. Http request for getting one user from database, by specifying the user's id.
+        /// </summary>
+        /// <param name="id">The id of the user to be found.</param>
+        /// <returns>A task of type ActionResult</returns>
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserModel>> GetById(string id)
+        {
+            var userToBeFound = await userCrud.GetUser(id);
+            if (userToBeFound == null)
+            {
+                return NotFound();
+            }
+            return userToBeFound;
+        }
+
+        /// <summary>
         /// User login.
         /// </summary>
         /// <param name="name">The username of the user wanting to log in.</param>
@@ -49,7 +65,7 @@ namespace LinguiniBooksAPI.Controllers
         /// </summary>
         /// <param name="userToBeUpdated">The user to be updated.</param>
         /// <returns>A task of type ActionResult.</returns>
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<IUser>> Update(UserModel userToBeUpdated)
         {
             var updatedUser = userCrud.UpdateUser(
