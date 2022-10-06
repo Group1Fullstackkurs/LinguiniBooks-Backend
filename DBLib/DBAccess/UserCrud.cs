@@ -72,9 +72,11 @@ namespace DBDataAccess.DBAccess
         public async Task<UserModel> GetUserByName(string name, string pwd)
         {
             var user = await GetUserById(await UserNameToId(name));
-            if (pwdHelper.IsPwdValid(user, pwd)) {
+            if (pwdHelper.IsPwdValid(user, pwd))
+            {
                 return user;
-            } else
+            }
+            else
             {
                 return null;
             }
@@ -85,11 +87,25 @@ namespace DBDataAccess.DBAccess
         /// </summary>
         /// <param name="user">The user to be updated.</param>
         /// <returns>A collection containing the updated user.</returns>
-        public async Task UpdateUser(UserModel user)
+        public async Task<bool> UpdateUser(UserModel user, string pwd)
         {
+            var oldUser = await GetUserById(user.Id);
+            if(!pwdHelper.IsPwdValid(oldUser, pwd) ||oldUser == null) 
+            {
+                return false;
+            }
+            if(oldUser.Hash != user.Hash)
+            {
+                //Pwd creation
+                var salt = pwdHelper.GetSalt();
+                user.Hash = pwdHelper.GetSaltedHash(user.Hash, salt);
+                user.Salt = salt;
+            }
+
             var collection = Connect<UserModel>(userCollection);
             var filter = Builders<UserModel>.Filter.Eq("Id", user.Id);
             await collection.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert = true });
+            return true;
         }
 
         //public async Task<UserModel> GetUserByName(string name, string pwd);
@@ -122,7 +138,7 @@ namespace DBDataAccess.DBAccess
         protected private async Task<string> UserNameToId(string name)
         {
             var collection = Connect<UserModel>(userCollection);
-            return(await collection.FindAsync(u => u.Name == name)).FirstOrDefault().Id;
+            return (await collection.FindAsync(u => u.Name == name)).FirstOrDefault().Id;
         }
     }
 }
