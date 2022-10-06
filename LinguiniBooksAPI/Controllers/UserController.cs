@@ -4,7 +4,6 @@ using DBDataAccess.Models;
 using LinguiniBooksAPI.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace LinguiniBooksAPI.Controllers
 {
     /// <summary>
@@ -27,21 +26,6 @@ namespace LinguiniBooksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<IUser>>> Get() => await userCrud.GetAllUsers();
 
-        /// <summary>
-        /// READ. Http request for getting one user from database, by specifying the user's id.
-        /// </summary>
-        /// <param name="id">The id of the user to be found.</param>
-        /// <returns>A task of type ActionResult</returns>
-        [HttpGet("{id}")]
-        public async Task<ActionResult<UserModel>> GetById(string id)
-        {
-            var userToBeFound = await userCrud.GetUser(id);
-            if (userToBeFound == null)
-            {
-                return NotFound();
-            }
-            return userToBeFound;
-        }
 
         /// <summary>
         /// User login.
@@ -71,6 +55,24 @@ namespace LinguiniBooksAPI.Controllers
             var updatedUser = userCrud.UpdateUser(
                 userToBeUpdated, pwd);
             if(!await updatedUser)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
+        /// <summary>
+        /// Update User Books
+        /// </summary>
+        /// <param name="id">The active user's id</param>
+        /// <param name="pwd">The current password of the user</param>
+        /// <param name="book">The chosen book(s)</param>
+        /// <returns></returns>
+        [HttpPut("BuyBook/{id}/{pwd}")]
+        public async Task<ActionResult> BuyBook(string id, string pwd, BookModel[] book)
+        {
+            var user = userCrud.BuyBook(id, pwd, book);
+            if(!await user)
             {
                 return BadRequest();
             }
