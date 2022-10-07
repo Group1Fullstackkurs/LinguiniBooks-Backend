@@ -112,6 +112,14 @@ namespace DBDataAccess.DBAccess
                 return false;
             }
 
+            for (int i = 0; i < book.Length; i++)
+            {
+                if (book[i].Stock > 0)
+                {
+                    book[i].Stock -= 1;
+                }
+            }
+
             user.BoughtBooks = user.BoughtBooks.Concat(book);
 
             return await UpdateUser(user, pwd);
