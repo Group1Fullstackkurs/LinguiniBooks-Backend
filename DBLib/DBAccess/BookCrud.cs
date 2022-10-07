@@ -1,7 +1,9 @@
-﻿using DBDataAccess.Interfaces;
+﻿    using DBDataAccess.Interfaces;
 using DBDataAccess.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Configuration;
+
 
 namespace DBDataAccess.DBAccess
 {
@@ -19,6 +21,19 @@ namespace DBDataAccess.DBAccess
         public BooksCrud(string connectionString)
         {
             this.connectionString = connectionString;
+
+            DBSeed();
+        }
+
+        public async void DBSeed()
+        {
+            var collection = Connect<BookModel>(bookCollection);
+            Console.WriteLine("DBSeed happend!");
+            if (collection == null)
+            {
+                Console.WriteLine("I am empty!");
+                await DataBaseSeed.DataSeed(connectionString);
+            }
         }
 
         /// <summary>
