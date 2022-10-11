@@ -1,11 +1,12 @@
 name: .NET
 
 on:
-  #push:
-    #branches: [ "main", "dev" ]
   pull_request:
     branches: [ "main", "dev" ]
-
+    
+env:
+  CNNSTR: ${{ secrets.CONNSTR }}
+  
 jobs:
   build:
 
