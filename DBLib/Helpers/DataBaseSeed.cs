@@ -5,6 +5,8 @@ using DBDataAccess.Models;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using MongoDB.Bson.IO;
+using MongoDB.Bson.Serialization.Serializers;
 
 public class DataBaseSeed
 {
@@ -13,12 +15,24 @@ public class DataBaseSeed
         var client = new MongoClient(connectionString);
         var database = client.GetDatabase("BookStore");
 
-        string text = File.ReadAllText(@"BooksSeed.json");
+        string text = await System.IO.File.ReadAllTextAsync(@"BooksSeed.json");
 
-        var document = BsonSerializer.Deserialize<BsonDocument>(text);
+        BsonArray bsonArray;
+
+        using (var jsonReader = new JsonReader(text))
+        {
+            var serializer = new BsonArraySerializer();
+            bsonArray = serializer.Deserialize(BsonDeserializationContext.CreateRoot(jsonReader));
+        }
+
         var collection = database.GetCollection<BsonDocument>("Books");
-        await collection.InsertOneAsync(document);
 
-    }      
-    
+        foreach (BsonValue bsonValue in bsonArray)
+        {
+            var b = bsonValue.ToBsonDocument();
+            await collection.InsertOneAsync(b);
+
+        }
+    }
+
 }

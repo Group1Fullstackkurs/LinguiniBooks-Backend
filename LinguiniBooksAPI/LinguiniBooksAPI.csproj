@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="BooksSeed.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="NewFile.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="BooksSeed.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.17.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>

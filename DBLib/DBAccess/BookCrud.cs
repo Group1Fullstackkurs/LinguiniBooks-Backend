@@ -28,10 +28,10 @@ namespace DBDataAccess.DBAccess
         public async void DBSeed()
         {
             var collection = Connect<BookModel>(bookCollection);
-            Console.WriteLine("DBSeed happend!");
-            if (collection == null)
+            var result = await collection.FindAsync(_ => true);
+
+            if (true)
             {
-                Console.WriteLine("I am empty!");
                 await DataBaseSeed.DataSeed(connectionString);
             }
         }
