@@ -53,17 +53,6 @@ namespace DBDataAccess.DBAccess
         }
 
         /// <summary>
-        /// READ. Gets one user from the database.
-        /// </summary>
-        /// <param name="id">Id of the user to be found.</param>
-        /// <returns>The user that matches the incoming id.</returns>
-        public async Task<UserModel> GetUser(string id)
-        {
-            var collection = Connect<UserModel>(userCollection);
-            return (await collection.FindAsync(u => u.Id == id)).FirstOrDefault();
-        }
-
-        /// <summary>
         /// Login
         /// </summary>
         /// <param name="name">The name of the user.</param>
@@ -86,7 +75,7 @@ namespace DBDataAccess.DBAccess
         /// UPDATE. Updates the user object.
         /// </summary>
         /// <param name="user">The user to be updated.</param>
-        /// <returns>A collection containing the updated user.</returns>
+        /// <returns>Returns true if successful</returns>
         public async Task<bool> UpdateUser(UserModel user, string pwd)
         {
             var oldUser = await GetUserById(user.Id);
@@ -106,6 +95,34 @@ namespace DBDataAccess.DBAccess
             var filter = Builders<UserModel>.Filter.Eq("Id", user.Id);
             await collection.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert = true });
             return true;
+        }
+
+        /// <summary>
+        /// UPDATE. Updates the user's bought books.
+        /// </summary>
+        /// <param name="user">The active user.</param>
+        /// <param name="pwd">The active user's password</param>
+        /// <param name="book">The bought books</param>
+        /// <returns>Returns true if successful</returns>
+        public async Task<bool> BuyBook(string id, string pwd, BookModel[] book)
+        {
+            var user = await GetUserById(id);
+            if (!pwdHelper.IsPwdValid(user, pwd) || user == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < book.Length; i++)
+            {
+                if (book[i].Stock > 0)
+                {
+                    book[i].Stock -= 1;
+                }
+            }
+
+            user.BoughtBooks = user.BoughtBooks.Concat(book);
+
+            return await UpdateUser(user, pwd);
         }
 
         //public async Task<UserModel> GetUserByName(string name, string pwd);
