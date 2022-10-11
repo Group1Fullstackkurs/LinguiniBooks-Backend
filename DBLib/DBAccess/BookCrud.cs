@@ -1,7 +1,7 @@
 ﻿using DBDataAccess.Interfaces;
 using DBDataAccess.Models;
 using MongoDB.Driver;
-using MongoDB.Driver.Core.Configuration;
+
 
 namespace DBDataAccess.DBAccess
 {
@@ -86,10 +86,19 @@ namespace DBDataAccess.DBAccess
         /// </summary>
         /// <param name="book">The book to be deleted from database.</param>
         /// <returns>An updated collection without the deleted book object.</returns>
-        public Task DeleteCBook(BookModel book)
+        public Task DeleteBook(BookModel book)
         {
             var collection = Connect<BookModel>(bookCollection);
             return collection.DeleteOneAsync(b => b.Id == book.Id);
+        }
+
+        /// <summary>
+        /// DELETE. Deletes all books, only to try seeding mongodb if collection is empty.
+        /// </summary>
+        public async Task DeleteAllBooks()
+        {
+            var collection = Connect<BookModel>(bookCollection);
+            await collection.Database.DropCollectionAsync(bookCollection);
         }
     }
 }

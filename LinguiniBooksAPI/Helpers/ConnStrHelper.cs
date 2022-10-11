@@ -19,7 +19,7 @@
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+              
             }
 
             if(!string.IsNullOrEmpty(connStrDocs))
@@ -33,9 +33,6 @@
                 return connStrAzure;
             }
             return string.Empty;
-                
-                
- 
         }
     }
 }

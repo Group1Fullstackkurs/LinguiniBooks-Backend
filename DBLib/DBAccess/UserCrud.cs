@@ -100,7 +100,7 @@ namespace DBDataAccess.DBAccess
         /// <summary>
         /// UPDATE. Updates the user's bought books.
         /// </summary>
-        /// <param name="user">The active user.</param>
+        /// <param name="id">The active user's id.</param>
         /// <param name="pwd">The active user's password</param>
         /// <param name="book">The bought books</param>
         /// <returns>Returns true if successful</returns>
@@ -116,7 +116,7 @@ namespace DBDataAccess.DBAccess
             {
                 if (book[i].Stock > 0)
                 {
-                    book[i].Stock -= 1;
+                    book[i].Stock--;
                 }
             }
 
@@ -125,12 +125,6 @@ namespace DBDataAccess.DBAccess
             return await UpdateUser(user, pwd);
         }
 
-        //public async Task<UserModel> GetUserByName(string name, string pwd);
-        //{
-        //    var collection = Connect<UserModel>(userCollection);
-        //    return (await collection.FindAsync(u => u.Name == name)).FirstOrDefault();
-
-        //}
 
         // ================================================
         // Do not use the two below methods outside of CRUD
