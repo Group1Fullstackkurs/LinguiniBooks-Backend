@@ -70,15 +70,28 @@ namespace LinguiniBooksAPI.Controllers
         /// <summary>
         /// DELETE. Http request for deleting a book from database.
         /// </summary>
-        /// <param name="id">The id of the book to be deleted</param>
+        /// <param name="id">The id of the book to be deleted.</param>
         /// <returns>A task of type ActionResult</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook(string id)
         {
             var bookToBeDeleted = await bookCrud.GetBook(id);
-            await bookCrud.DeleteCBook(bookToBeDeleted);
+            await bookCrud.DeleteBook(bookToBeDeleted);
             
             return Ok();
         }
+
+        /// <summary>
+        /// DELETE. Http request for deleting all books from collection.
+        /// </summary>
+        /// <returns>A task of type ActionResult</returns>
+        [HttpDelete("/DeleteAll")]
+        public async Task<IActionResult> DeleteAllBooks()
+        {
+            await bookCrud.DeleteAllBooks();
+
+            return Ok();
+        }
+
     }
 }

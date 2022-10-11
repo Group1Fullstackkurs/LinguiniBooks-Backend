@@ -7,14 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="BooksSeed.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="NewFile.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="BooksSeed.json" />
   </ItemGroup>
 

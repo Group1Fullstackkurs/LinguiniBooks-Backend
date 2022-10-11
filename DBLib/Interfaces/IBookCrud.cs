@@ -8,6 +8,7 @@ namespace DBDataAccess.Interfaces
         public Task<List<BookModel>> GetAllBooks();
         public Task<BookModel> GetBook(string id);
         public Task UpdateBook(BookModel book);
-        public Task DeleteCBook(BookModel book);
+        public Task DeleteBook(BookModel book);
+        public Task DeleteAllBooks();
     }
 }
