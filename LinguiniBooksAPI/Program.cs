@@ -9,6 +9,8 @@ using MongoDB.Driver;
 using MongoDB.Driver.Core.Configuration;
 using System.ComponentModel.DataAnnotations.Schema;
 
+DBSeed();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -48,35 +50,57 @@ app.Run();
 
 
 
-
-var connectionString = ConnStrHelper.ReadConnStr();
-//var client = new MongoClient(connectionString);
-//var database = client.GetDatabase("BookStore");
-//var collection = database.GetCollection<BsonDocument>("Books");
-//if (collection == null)
-//{
-//}
+async void DBSeed()
+{
+    var connectionString = ConnStrHelper.ReadConnStr();
     var client = new MongoClient(connectionString);
     var database = client.GetDatabase("BookStore");
-
-    string text = await System.IO.File.ReadAllTextAsync(@"BooksSeed.json");
-
-    BsonArray bsonArray;
-
-    using (var jsonReader = new JsonReader(text))
-    {
-        var serializer = new BsonArraySerializer();
-        bsonArray = serializer.Deserialize(BsonDeserializationContext.CreateRoot(jsonReader));
-    }
-
     var collection = database.GetCollection<BsonDocument>("Books");
+    var result = await collection.FindAsync(_ => true);
 
-    foreach (BsonValue bsonValue in bsonArray)
+    if (result.ToList() == null)
     {
-        var b = bsonValue.ToBsonDocument();
-        await collection.InsertOneAsync(b);
+        string text = await System.IO.File.ReadAllTextAsync(@"BooksSeed.json");
 
+        BsonArray bsonArray;
+
+        using (var jsonReader = new JsonReader(text))
+        {
+            var serializer = new BsonArraySerializer();
+            bsonArray = serializer.Deserialize(BsonDeserializationContext.CreateRoot(jsonReader));
+        }
+
+        foreach (BsonValue bsonValue in bsonArray)
+        {
+            var b = bsonValue.ToBsonDocument();
+            await collection.InsertOneAsync(b);
+
+        }
     }
+}
+
+//var connectionString = ConnStrHelper.ReadConnStr();
+//var client = new MongoClient(connectionString);
+//var database = client.GetDatabase("BookStore");
+
+//string text = await System.IO.File.ReadAllTextAsync(@"BooksSeed.json");
+
+//BsonArray bsonArray;
+
+//using (var jsonReader = new JsonReader(text))
+//{
+//    var serializer = new BsonArraySerializer();
+//    bsonArray = serializer.Deserialize(BsonDeserializationContext.CreateRoot(jsonReader));
+//}
+
+//var collection = database.GetCollection<BsonDocument>("Books");
+
+//foreach (BsonValue bsonValue in bsonArray)
+//{
+//    var b = bsonValue.ToBsonDocument();
+//    await collection.InsertOneAsync(b);
+
+//}
 
 
 
