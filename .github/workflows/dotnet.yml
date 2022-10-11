@@ -5,7 +5,7 @@ on:
     branches: [ "main", "dev" ]
     
 env:
-  CNNSTR: ${{ secrets.CONNSTR }}
+  CONNSTR: ${{ secrets.CONNSTR }}
   
 jobs:
   build:
